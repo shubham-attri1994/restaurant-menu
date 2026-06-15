@@ -1,29 +1,36 @@
-let items=[
-
+let items = [
 
 {
 name:"Paneer Butter Masala",
 price:220,
 type:"veg",
-image:"images/paneer.jpg"
+category:"Main Course",
+image:"https://picsum.photos/300/200?1"
 },
-
 
 {
 name:"Chicken Curry",
 price:280,
 type:"nonveg",
-image:"images/chicken.jpg"
+category:"Main Course",
+image:"https://picsum.photos/300/200?2"
 },
-
 
 {
 name:"Veg Burger",
 price:120,
 type:"veg",
-image:"images/burger.jpg"
-}
+category:"Snacks",
+image:"https://picsum.photos/300/200?3"
+},
 
+{
+name:"Chicken Burger",
+price:180,
+type:"nonveg",
+category:"Snacks",
+image:"https://picsum.photos/300/200?4"
+}
 
 ];
 
@@ -38,24 +45,24 @@ function showMenu(data){
 let html="";
 
 
-data.forEach((x,i)=>{
+data.forEach((item)=>{
 
 
-html+=`
+html += `
 
 <div class="card">
 
-<img src="${x.image}">
+
+<img src="${item.image}">
 
 
-<h3>${x.name}</h3>
+<h3>${item.name}</h3>
 
 
-<p>₹${x.price}</p>
+<p>₹${item.price}</p>
 
 
-<button class="add"
-onclick="addItem(${i})">
+<button onclick="addItem('${item.name}')">
 
 Add To Order
 
@@ -64,8 +71,8 @@ Add To Order
 
 </div>
 
-
 `;
+
 
 });
 
@@ -90,42 +97,40 @@ showMenu(items);
 else{
 
 
-showMenu(
-
+let result =
 items.filter(
-x=>x.type==type
-)
-
+item => item.type === type
 );
 
 
+showMenu(result);
+
+
 }
 
+
 }
 
 
 
-function addItem(i){
+
+function addItem(name){
 
 
-cart.push(items[i]);
+let item =
+items.find(
+x=>x.name===name
+);
+
+
+cart.push(item);
+
 
 showCart();
 
 
 }
 
-
-
-function removeItem(i){
-
-
-cart.splice(i,1);
-
-showCart();
-
-
-}
 
 
 
@@ -137,29 +142,28 @@ let html="";
 let total=0;
 
 
-cart.forEach((x,i)=>{
+cart.forEach((item,index)=>{
 
 
 html+=`
 
 <p>
 
-${x.name}
+${item.name} ₹${item.price}
 
-₹${x.price}
-
-<button onclick="removeItem(${i})">
+<button onclick="removeItem(${index})">
 
 ❌
 
 </button>
 
-</p>
 
+</p>
 
 `;
 
-total+=x.price;
+
+total += item.price;
 
 
 });
@@ -169,7 +173,6 @@ document.getElementById("cart").innerHTML=html;
 
 
 document.getElementById("total").innerHTML=
-
 "Total ₹"+total;
 
 
@@ -178,12 +181,26 @@ document.getElementById("total").innerHTML=
 
 
 
+function removeItem(index){
+
+
+cart.splice(index,1);
+
+showCart();
+
+
+}
+
+
+
+
+
 function placeOrder(){
 
 
-if(cart.length==0){
+if(cart.length===0){
 
-alert("Please add items");
+alert("Add items first");
 
 return;
 
@@ -192,10 +209,8 @@ return;
 
 
 let token =
-localStorage.getItem("token") || 0;
+Number(localStorage.getItem("token") || 0)+1;
 
-
-token++;
 
 localStorage.setItem(
 "token",
@@ -204,25 +219,19 @@ token
 
 
 
-let msg=
+let message=
 
-"New Order\n\n"+
-
+"New Order\n"+
 "Token: "+token+
-
-"\nName: "+name.value+
-
-"\nTable: "+table.value+
-
 "\n\n";
 
 
+cart.forEach(item=>{
 
-cart.forEach(x=>{
-
-msg+=x.name+
+message +=
+item.name+
 " ₹"+
-x.price+
+item.price+
 "\n";
 
 });
@@ -230,10 +239,7 @@ x.price+
 
 
 alert(
-
-"Order placed\nYour Token Number: "
-+token
-
+"Order placed. Token: "+token
 );
 
 
@@ -241,8 +247,7 @@ alert(
 window.open(
 
 "https://wa.me/91YOURNUMBER?text="+
-
-encodeURIComponent(msg)
+encodeURIComponent(message)
 
 );
 
@@ -252,4 +257,5 @@ encodeURIComponent(msg)
 
 
 
-filterMenu("all");
+
+showMenu(items);
