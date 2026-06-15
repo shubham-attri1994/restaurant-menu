@@ -246,7 +246,7 @@ alert(
 
 window.open(
 
-"https://wa.me/91YOURNUMBER?text="+
+"https://wa.me/918894325304?text="+
 encodeURIComponent(message)
 
 );
