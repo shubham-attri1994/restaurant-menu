@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Restaurant Menu</title>
 
@@ -19,27 +18,17 @@
 
 <h1>Akarshan Restaurant</h1>
 
-<p>Digital Menu</p>
-
 </header>
 
 
-<div class="filters">
 
-<button onclick="filterMenu('all')">
-All
-</button>
+<div class="category-bar">
 
+<button onclick="filterMenu('all')">All</button>
 
-<button onclick="filterMenu('veg')">
-🥦 Veg
-</button>
+<button onclick="filterMenu('veg')">🥗 Veg</button>
 
-
-<button onclick="filterMenu('nonveg')">
-🍗 Non Veg
-</button>
-
+<button onclick="filterMenu('nonveg')">🍗 Non Veg</button>
 
 </div>
 
@@ -49,12 +38,13 @@ All
 
 
 
-<div class="cart">
-
-<h2>Cart</h2>
+<div class="cart-box">
 
 
-<div id="cartItems"></div>
+<h2>Your Order</h2>
+
+
+<div id="cart"></div>
 
 
 <h3 id="total">
@@ -63,15 +53,13 @@ Total ₹0
 
 
 
-<input id="customer"
-placeholder="Your Name">
+<input id="name" placeholder="Your Name">
 
 
-<input id="table"
-placeholder="Table No">
+<input id="table" placeholder="Table Number">
 
 
-<button onclick="order()">
+<button class="order-btn" onclick="placeOrder()">
 
 Place Order
 
@@ -82,10 +70,8 @@ Place Order
 
 
 
-
 <script src="app.js"></script>
 
 
 </body>
-
 </html>
