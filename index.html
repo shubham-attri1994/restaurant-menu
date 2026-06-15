@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Restaurant Menu</title>
+<title>Akarshan Menu</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,54 +16,42 @@
 
 
 <header>
-
 <h1>Akarshan Restaurant</h1>
-
 </header>
 
 
+<div class="buttons">
 
-<div class="category-bar">
-
-<button onclick="filterMenu('all')">All</button>
-
-<button onclick="filterMenu('veg')">🥗 Veg</button>
-
-<button onclick="filterMenu('nonveg')">🍗 Non Veg</button>
+<button onclick="showMenu('all')">All</button>
+<button onclick="showMenu('veg')">Veg</button>
+<button onclick="showMenu('nonveg')">Non Veg</button>
 
 </div>
 
 
-
-<div id="menu"></div>
-
+<div id="items"></div>
 
 
-<div class="cart-box">
+<div class="cart">
 
+<h2>Cart</h2>
 
-<h2>Your Order</h2>
-
-
-<div id="cart"></div>
-
+<div id="cartItems">
+Cart Empty
+</div>
 
 <h3 id="total">
 Total ₹0
 </h3>
 
 
+<input id="customer" placeholder="Name">
 
-<input id="name" placeholder="Your Name">
-
-
-<input id="table" placeholder="Table Number">
+<input id="table" placeholder="Table No">
 
 
-<button class="order-btn" onclick="placeOrder()">
-
+<button onclick="placeOrder()">
 Place Order
-
 </button>
 
 
@@ -72,6 +61,6 @@ Place Order
 
 <script src="app.js"></script>
 
-
 </body>
+
 </html>
