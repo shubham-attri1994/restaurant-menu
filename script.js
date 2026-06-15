@@ -1,5 +1,5 @@
-
 let items=[
+
 
 {
 name:"Paneer Butter Masala",
@@ -24,8 +24,8 @@ type:"veg",
 image:"images/burger.jpg"
 }
 
-];
 
+];
 
 
 let cart=[];
@@ -45,22 +45,20 @@ html+=`
 
 <div class="card">
 
-
 <img src="${x.image}">
 
 
-<h3>
-${x.name}
-</h3>
+<h3>${x.name}</h3>
 
 
-<p>
-₹${x.price}
-</p>
+<p>₹${x.price}</p>
 
 
-<button onclick="add(${i})">
-Add
+<button class="add"
+onclick="addItem(${i})">
+
+Add To Order
+
 </button>
 
 
@@ -68,7 +66,6 @@ Add
 
 
 `;
-
 
 });
 
@@ -80,36 +77,59 @@ document.getElementById("menu").innerHTML=html;
 
 
 
+
 function filterMenu(type){
 
 
-if(type=="all")
+if(type=="all"){
+
 showMenu(items);
 
+}
 
-else
+else{
+
+
 showMenu(
-items.filter(x=>x.type==type)
+
+items.filter(
+x=>x.type==type
+)
+
 );
 
 
 }
 
+}
 
 
-function add(i){
+
+function addItem(i){
 
 
 cart.push(items[i]);
 
-displayCart();
+showCart();
 
 
 }
 
 
 
-function displayCart(){
+function removeItem(i){
+
+
+cart.splice(i,1);
+
+showCart();
+
+
+}
+
+
+
+function showCart(){
 
 
 let html="";
@@ -117,18 +137,27 @@ let html="";
 let total=0;
 
 
-cart.forEach(x=>{
+cart.forEach((x,i)=>{
 
 
 html+=`
 
 <p>
-${x.name} ₹${x.price}
+
+${x.name}
+
+₹${x.price}
+
+<button onclick="removeItem(${i})">
+
+❌
+
+</button>
+
 </p>
 
 
 `;
-
 
 total+=x.price;
 
@@ -136,55 +165,87 @@ total+=x.price;
 });
 
 
-
-document.getElementById("cartItems")
-.innerHTML=html;
+document.getElementById("cart").innerHTML=html;
 
 
-document.getElementById("total")
-.innerHTML="Total ₹"+total;
+document.getElementById("total").innerHTML=
+
+"Total ₹"+total;
 
 
 }
 
 
 
-function order(){
+
+function placeOrder(){
 
 
-let token=
-Math.floor(Math.random()*900)+100;
+if(cart.length==0){
+
+alert("Please add items");
+
+return;
+
+}
+
+
+
+let token =
+localStorage.getItem("token") || 0;
+
+
+token++;
+
+localStorage.setItem(
+"token",
+token
+);
+
 
 
 let msg=
 
-"New Order\n"+
+"New Order\n\n"+
+
 "Token: "+token+
-"\nName: "+
-customer.value+
-"\nTable: "+
-table.value+
+
+"\nName: "+name.value+
+
+"\nTable: "+table.value+
+
 "\n\n";
+
 
 
 cart.forEach(x=>{
 
-msg+=x.name+" ₹"+x.price+"\n";
+msg+=x.name+
+" ₹"+
+x.price+
+"\n";
 
 });
 
 
+
 alert(
-"Order placed. Your Token is "+token
+
+"Order placed\nYour Token Number: "
++token
+
 );
+
 
 
 window.open(
 
 "https://wa.me/91YOURNUMBER?text="+
+
 encodeURIComponent(msg)
 
 );
+
 
 
 }
