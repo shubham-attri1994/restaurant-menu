@@ -1,29 +1,28 @@
-let menuItems=[
 
+let items=[
 
 {
 name:"Paneer Butter Masala",
-category:"Main Course",
 price:220,
-image:"https://picsum.photos/400"
+type:"veg",
+image:"images/paneer.jpg"
 },
 
 
 {
-name:"Veg Biryani",
-category:"Main Course",
-price:180,
-image:"https://picsum.photos/401"
+name:"Chicken Curry",
+price:280,
+type:"nonveg",
+image:"images/chicken.jpg"
 },
 
 
 {
-name:"Cold Coffee",
-category:"Drinks",
+name:"Veg Burger",
 price:120,
-image:"https://picsum.photos/402"
+type:"veg",
+image:"images/burger.jpg"
 }
-
 
 ];
 
@@ -33,186 +32,163 @@ let cart=[];
 
 
 
-function loadMenu(items){
+function showMenu(data){
 
 
-let output="";
+let html="";
 
 
-items.forEach((item,index)=>{
+data.forEach((x,i)=>{
 
 
-output+=`
+html+=`
 
 <div class="card">
 
 
-<img src="${item.image}">
+<img src="${x.image}">
 
 
-<h2>${item.name}</h2>
+<h3>
+${x.name}
+</h3>
 
 
-<p>₹${item.price}</p>
+<p>
+₹${x.price}
+</p>
 
 
-<button onclick="addCart(${index})">
-
+<button onclick="add(${i})">
 Add
-
 </button>
 
 
 </div>
 
+
 `;
+
 
 });
 
 
-document.getElementById("menu").innerHTML=output;
+document.getElementById("menu").innerHTML=html;
 
 
 }
 
 
 
-function addCart(index){
+function filterMenu(type){
 
 
-cart.push(menuItems[index]);
+if(type=="all")
+showMenu(items);
 
-showCart();
+
+else
+showMenu(
+items.filter(x=>x.type==type)
+);
 
 
 }
 
 
 
-function showCart(){
+function add(i){
 
 
-let text="";
+cart.push(items[i]);
+
+displayCart();
+
+
+}
+
+
+
+function displayCart(){
+
+
+let html="";
 
 let total=0;
 
 
-cart.forEach(item=>{
+cart.forEach(x=>{
 
 
-text+=`
+html+=`
 
 <p>
-${item.name} - ₹${item.price}
+${x.name} ₹${x.price}
 </p>
+
 
 `;
 
 
-total+=item.price;
+total+=x.price;
 
 
 });
 
 
-document.getElementById("cart").innerHTML=text;
+
+document.getElementById("cartItems")
+.innerHTML=html;
 
 
-document.getElementById("total").innerHTML=
-"Total: ₹"+total;
+document.getElementById("total")
+.innerHTML="Total ₹"+total;
 
 
 }
 
 
 
-function placeOrder(){
+function order(){
 
 
-if(cart.length==0){
-
-alert("Cart is empty");
-
-return;
-
-}
-
-
-
-let token =
+let token=
 Math.floor(Math.random()*900)+100;
 
 
+let msg=
 
-let order="New Order\n\n";
+"New Order\n"+
+"Token: "+token+
+"\nName: "+
+customer.value+
+"\nTable: "+
+table.value+
+"\n\n";
 
 
-order+="Token Number: "+token+"\n\n";
+cart.forEach(x=>{
 
-
-cart.forEach(item=>{
-
-
-order+=item.name+
-" ₹"+
-item.price+
-"\n";
-
+msg+=x.name+" ₹"+x.price+"\n";
 
 });
 
 
-
 alert(
-"Order Confirmed\nYour Token Number is: "
-+token
+"Order placed. Your Token is "+token
 );
-
-
-
-let message =
-encodeURIComponent(order);
-
 
 
 window.open(
 
-"https://wa.me/918894325304?text="+message
+"https://wa.me/91YOURNUMBER?text="+
+encodeURIComponent(msg)
 
 );
 
 
-
 }
 
 
 
-showCategory("All");
-
-
-
-function showCategory(category){
-
-
-if(category=="All"){
-
-loadMenu(menuItems);
-
-}
-
-else{
-
-
-let filtered =
-menuItems.filter(
-x=>x.category==category
-);
-
-
-loadMenu(filtered);
-
-
-}
-
-
-}
+filterMenu("all");
