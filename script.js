@@ -177,7 +177,7 @@ encodeURIComponent(order);
 
 window.open(
 
-"https://wa.me/91XXXXXXXXXX?text="+message
+"https://wa.me/918894325304?text="+message
 
 );
 
